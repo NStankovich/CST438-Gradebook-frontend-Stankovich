@@ -21,18 +21,19 @@ class AddAssignment extends React.Component {
     handleCourse = (event) => {
         this.setState({course_id: event.target.value});
     }
-    handleSubmit = (event) => {
+    handleSubmit = async (event) => {
         event.preventDefault();
-        const token = Cookies.get('XRSF-TOKENT');
+        const token = Cookies.get('XSRF-TOKEN');
         var name = this.state.name;
         var due_date = this.state.due_date;
         var course_id = this.state.course_id;
 
+        /*This code is broken, and it's staying here until I understand why. Functional code below comment.
         fetch(`${SERVER_URL}/assignment`,
             {
                 method: 'POST',
-                header: {'X-XRSF-TOKEN': token, 'Content-Type': 'application/json',},
-                body: JSON.stringify({"due_date":due_date,"name":name,"course_id":course_id}),
+                header: {'X-XSRF-TOKEN': token, 'Content-Type': 'application/json',},
+                body: JSON.stringify({due_date,name,course_id}),
             }).then(res => {
                 if (res.ok) {
                     toast.success(`New assignment "` + name + `" has been added`, {position: toast.POSITION.BOTTOM_LEFT});
@@ -45,7 +46,27 @@ class AddAssignment extends React.Component {
             }).catch(err => {
                 toast.error("ERROR: Failed to add course", {position: toast.POSITION.BOTTOM_LEFT});
                 console.error(err);
-            })
+            })*/
+            const response = await fetch(`${SERVER_URL}/assignment`, {
+                method: "POST",
+                headers: {
+                  "X-XSRF-TOKEN": token,
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                    name,
+                    due_date,
+                    course_id
+                }),
+            });
+            if (response.ok) {
+                toast.success(`New assignment "` + name + `" has been added`, {position: toast.POSITION.BOTTOM_LEFT});
+                console.log(`New assignment "` + name + `" has been added`);
+            }
+            else {
+                toast.error("ERROR: Failed to add course", {position: toast.POSITION.BOTTOM_LEFT});
+                console.error("Error, http status: " + response.status);
+            }
     }
     render() {
         return(
