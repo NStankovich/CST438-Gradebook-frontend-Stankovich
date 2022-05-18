@@ -4,7 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { Link } from 'react-router-dom'
 import Cookies from 'js-cookie';
 import Button from '@mui/material/Button';
-import {SERVER_URL} from '../constants.js'
+import {SERVER_URL} from '../constants.js';
 
 class AddAssignment extends React.Component {
     constructor(props){
@@ -31,8 +31,8 @@ class AddAssignment extends React.Component {
         fetch(`${SERVER_URL}/assignment`,
             {
                 method: 'POST',
-                header: {'X-XRSF-TOKEN': token},
-                body: JSON.stringify({due_date:due_date,name:name,course_id:course_id})
+                header: {'X-XRSF-TOKEN': token, 'Content-Type': 'application/json',},
+                body: JSON.stringify({"due_date":due_date,"name":name,"course_id":course_id}),
             }).then(res => {
                 if (res.ok) {
                     toast.success(`New assignment "` + name + `" has been added`, {position: toast.POSITION.BOTTOM_LEFT});
