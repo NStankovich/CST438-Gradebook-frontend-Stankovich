@@ -80,7 +80,7 @@ class AddAssignment extends React.Component {
                 <input type="date" name='due_date' onChange={this.handleDueDate}  />
                 <p>Course ID:</p>
                 <input variant="outlined" type="number" name='course_id' onChange={this.handleCourse}/>
-                <input type="submit"/>
+                <input type="submit" name="submit"/>
             </form>
 
             <Button component={Link} to={{pathname:'/'}} 
