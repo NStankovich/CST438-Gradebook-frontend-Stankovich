@@ -28,45 +28,27 @@ class AddAssignment extends React.Component {
         var due_date = this.state.due_date;
         var course_id = this.state.course_id;
 
-        /*This code is broken, and it's staying here until I understand why. Functional code below comment.
-        fetch(`${SERVER_URL}/assignment`,
-            {
-                method: 'POST',
-                header: {'X-XSRF-TOKEN': token, 'Content-Type': 'application/json',},
-                body: JSON.stringify({due_date,name,course_id}),
-            }).then(res => {
-                if (res.ok) {
-                    toast.success(`New assignment "` + name + `" has been added`, {position: toast.POSITION.BOTTOM_LEFT});
-                    console.log(`New assignment "` + name + `" has been added`);
-                }
-                else {
-                    toast.error("ERROR: Failed to add course", {position: toast.POSITION.BOTTOM_LEFT});
-                    console.error("Error, http status: " + res.status);
-                }
-            }).catch(err => {
-                toast.error("ERROR: Failed to add course", {position: toast.POSITION.BOTTOM_LEFT});
-                console.error(err);
-            })*/
-            const response = await fetch(`${SERVER_URL}/assignment`, {
-                method: "POST",
-                headers: {
-                  "X-XSRF-TOKEN": token,
-                  "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    name,
-                    due_date,
-                    course_id
-                }),
-            });
-            if (response.ok) {
-                toast.success(`New assignment "` + name + `" has been added`, {position: toast.POSITION.BOTTOM_LEFT});
-                console.log(`New assignment "` + name + `" has been added`);
-            }
-            else {
-                toast.error("ERROR: Failed to add course", {position: toast.POSITION.BOTTOM_LEFT});
-                console.error("Error, http status: " + response.status);
-            }
+        const response = await fetch(`${SERVER_URL}/assignment`, {
+            method: "POST",
+            headers: {
+              "X-XSRF-TOKEN": token,
+              "Content-Type": "application/json",
+            },
+            credentials: 'include', 
+            body: JSON.stringify({
+                name,
+                due_date,
+                course_id
+            }),
+        });
+        if (response.ok) {
+            toast.success(`New assignment "` + name + `" has been added`, {position: toast.POSITION.BOTTOM_LEFT});
+            console.log(`New assignment "` + name + `" has been added`);
+        }
+        else {
+            toast.error("ERROR: Failed to add course", {position: toast.POSITION.BOTTOM_LEFT});
+            console.error("Error, http status: " + response.status);
+        }
     }
     render() {
         return(
