@@ -15,7 +15,7 @@ class Login extends Component {
   fetchUser = () => {
     console.log("FETCH");
     const token = Cookies.get('XSRF-TOKEN');
-    fetch(SERVER_URL + 'user', 
+    fetch(SERVER_URL + '/user', 
       {  
         method: 'GET', redirect: 'follow', 
         headers: { 'X-XSRF-TOKEN': token }, 
@@ -27,7 +27,7 @@ class Login extends Component {
     }
   
   render() {
-        return ( <a align="left" href={SERVER_URL + 'oauth2/authorization/google'}>Login using Google</a> ); 
+        return ( <a align="left" href={SERVER_URL + '/oauth2/authorization/google'}>Login using Google</a> ); 
   }
 }
 export default Login;

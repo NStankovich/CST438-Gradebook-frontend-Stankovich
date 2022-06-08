@@ -15,7 +15,7 @@ import {SERVER_URL} from '../constants.js'
 class Assignment extends React.Component {
     constructor(props) {
       super(props);
-      this.state = {selected: 0, status: null, loading: false, assignments: []};
+      this.state = {selected: 0, status: null, loading: null, assignments: []};
     };
  
    componentDidMount() {
@@ -23,7 +23,7 @@ class Assignment extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.state.status && !this.state.loading) {
+    if (this.state.status && this.state.loading == null) {
       this.fetchAssignments();
     }
   }
@@ -60,6 +60,7 @@ class Assignment extends React.Component {
       } )
     .then((response) => response.json()) 
     .then((responseData) => { 
+      console.log(responseData);
       if (Array.isArray(responseData.assignments)) {
         //  add to each assignment an "id"  This is required by DataGrid  "id" is the row index in the data grid table 
         this.setState({ assignments: responseData.assignments.map((assignment, index) => ( { id: index, ...assignment } )), loading: false });
@@ -109,8 +110,8 @@ class Assignment extends React.Component {
       { field: 'dueDate', headerName: 'Due Date', width: 200 }
     ];
     const studentColumns = [
-      { field: 'assignmentName', headerName: 'Assignment Name', width: 300 },
-      { field: 'courseTitle', headerName: 'Course', width: 300 },
+      { field: 'name', headerName: 'Assignment Name', width: 300 },
+      { field: 'courseName', headerName: 'Course', width: 300 },
       { field: 'dueDate', headerName: 'Due Date', width: 300 },
       { field: 'score', headerName: 'Score', width: 300 },
     ];
